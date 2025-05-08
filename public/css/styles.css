@@ -143,7 +143,9 @@ nav {
   color: black;
 }
 
-.wrapper {}
+.copyright {
+  float: left;
+}
 
 
 /*************** Larger (Computer) View ***************/
@@ -175,13 +177,20 @@ nav {
     right: 20px;
   }
 
-  .computerdiv {
+  #wrapper {
     border: 4px solid var(--divFontColor);
     border-radius: 10px;
     margin: 0 auto;
     background-color: white;
-    width: max-content;
+    width: 60%;
+    height: auto;
     padding: 20px;
+  }
+
+  .trailfix::after {
+    content: "";
+    display: table;
+    clear: both;
   }
 
   .heroimage {
