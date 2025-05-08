@@ -38,7 +38,7 @@ nav {
 .navigationul ul {
   list-style-type: none;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   padding: 8px;
 }
 
@@ -78,10 +78,77 @@ nav {
   padding: 5px;
 }
 
+.deloreanupgrades img {
+  height: auto;
+  width: 70px;
+}
+
+.deloreanupgrades {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.deloreanupgrades a {
+  color: black;
+}
+
+.upgrades {
+  display: block;
+  width: 150px;
+}
+
+.upgradesimgdiv {
+  display: flex;
+  background-color: var(--divFontColor);
+  border: 1px solid black;
+  width: 150px;
+  height: 90px;
+  align-items: center;
+  justify-content: center;
+}
+
+.upgrades a {
+  display: block;
+}
+
+.reviewdiv h2 {
+  font-size: 20px;
+}
+
+.reviewdiv {
+  line-height: 30px;
+}
+
+.container {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  gap: 40px;
+}
+
+.siteName {
+  font-size: 40px;
+}
+
+.siteName a {
+  text-decoration: none;
+  color: var(--navBackgroundColor);
+}
+
+#tools {
+  float: right;
+}
+
+#tools a {
+  text-decoration: none;
+  color: black;
+}
+
+.wrapper {}
+
 
 /*************** Larger (Computer) View ***************/
 
-@media (min-width: 768px) {
+@media screen and (min-width: 1000px) {
 
   body {
     background-image: url("/images/site/small_check.jpg");
@@ -100,6 +167,21 @@ nav {
 
   h1 {
     font-size: 30px;
+  }
+
+  #tools {
+    position: relative;
+    top: 25px;
+    right: 20px;
+  }
+
+  .computerdiv {
+    border: 4px solid var(--divFontColor);
+    border-radius: 10px;
+    margin: 0 auto;
+    background-color: white;
+    width: max-content;
+    padding: 20px;
   }
 
   .heroimage {
@@ -121,6 +203,19 @@ nav {
 
   .herodivfloat a {
     line-height: 3;
+  }
+
+  .deloreanupgrades {
+    float: left;
+  }
+
+  .deloreanupgrades {
+    float: left;
+  }
+
+  .reviewdiv {
+    float: right;
+    line-height: 50px;
   }
 
 }
