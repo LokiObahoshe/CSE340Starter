@@ -1,6 +1,126 @@
-/******* Change Box Model ***************/
+/*************** Change Box Model ***************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+/*************** Smaller (Mobile) View ***************/
+
+:root {
+  --navBackgroundColor: rgb(47, 56, 97);
+  --divFontColor: #8bb0c1;
+  --font: Arial, sans-serif;
+}
+
+html,
+body {
+  overflow-x: auto;
+  font-family: var(--font)
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+h1 {
+  font-size: 23px;
+}
+
+nav {
+  font-size: 20px;
+  background-color: var(--navBackgroundColor);
+  max-width: 100%;
+  color: white;
+}
+
+.navigationul ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.navigationul a {
+  color: white;
+  text-decoration: none;
+}
+
+.herodivfloat {
+  position: absolute;
+  top: 37%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: max-content;
+  text-align: center;
+}
+
+.herodivfloat p {
+  padding: 0;
+  margin: 3px;
+  color: var(--navBackgroundColor);
+}
+
+
+.herodivfloat h2 {
+  margin-bottom: 1px;
+  color: var(--navBackgroundColor);
+  font-weight: bold;
+}
+
+.herodivfloat a {
+  text-decoration: none;
+  color: black;
+  background-color: lightblue;
+  padding: 5px;
+}
+
+
+/*************** Larger (Computer) View ***************/
+
+@media (min-width: 768px) {
+
+  body {
+    background-image: url("/images/site/small_check.jpg");
+  }
+
+  nav {
+    font-size: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: 50px;
+  }
+
+  .navigationul li {
+    margin-left: 50px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .heroimage {
+    width: 60%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    position: relative;
+  }
+
+  .herodivfloat {
+    width: max-content;
+    padding: 20px;
+    top: 50%;
+    left: 35%;
+  }
+
+
+  .herodivfloat a {
+    line-height: 3;
+  }
+
 }
