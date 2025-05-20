@@ -34,7 +34,7 @@ nav {
   color: white;
 }
 
-.navigationul ul {
+.navigationul {
   list-style-type: none;
   display: flex;
   justify-content: space-around;
