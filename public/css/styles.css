@@ -146,6 +146,48 @@ nav {
   float: left;
 }
 
+.vehicle-detail img,
+#inv-display img {
+  height: auto;
+  margin: 0 auto;
+  width: 100%;
+  display: block;
+}
+
+#inv-display {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+#inv-display li {
+  border: 2px solid #e6e3e3;
+  border-radius: 20px;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.namePrice span {
+  font-size: 20px;
+}
+
+.detail-row:nth-child(even) {
+  background-color: #f9f9f9;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.vehicle-detail {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 /*************** Medium (Tablet) View ***************/
 
 @media screen and (min-width: 641px) and (max-width: 1268px) {
@@ -153,6 +195,10 @@ nav {
   .container {
     grid-template-columns: repeat(4, 150px);
     justify-content: space-between;
+  }
+
+  #inv-display {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -165,7 +211,6 @@ nav {
   }
 
   nav {
-    font-size: 20px;
     margin: 0 auto;
     margin-top: 50px;
   }
@@ -228,6 +273,35 @@ nav {
   .reviewdiv {
     float: right;
     line-height: 50px;
+  }
+
+  .vehicle-detail img {
+    width: 98%;
+    float: left;
+    margin-right: 20px;
+  }
+
+  .vehicle-detail p {
+    padding: 5px;
+    margin-left: 10px;
+    text-wrap: balance;
+  }
+
+  .vehicle-detail {
+    margin-bottom: 120px;
+  }
+
+  #inv-display {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #inv-display li:hover {
+    transform: scale(1.02);
+  }
+
+  .vehicle-detail {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 
 }
