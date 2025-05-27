@@ -15,7 +15,7 @@ const inventoryRoute = require("./routes/inventoryRoute.js")
 const invController = require("./controllers/invController.js")
 const utilities = require("./utilities/")
 
-
+app.use(express.static("public"))
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout")
