@@ -35,7 +35,6 @@ invCont.getVehicleDetails = async function (req, res, next) {
 
 // Intentional error trigger
 invCont.triggerError = function (req, res, next) {
-    console.log("error triggered")
     const error = new Error("intentional error process")
     error.status = 500
     next(error)
