@@ -2,11 +2,12 @@ const utilities = require(".")
 const { body, validationResult } = require("express-validator")
 const validate = {}
 const accModel = require("../models/account-model")
+const bcrypt = require("bcryptjs")
 
 /*  **********************************
   *  Registration Data Validation Rules
   * ********************************* */
-validate.registationRules = () => {
+validate.registrationRules = () => {
     return [
         body("account_firstname")
             .trim()
@@ -74,12 +75,13 @@ validate.loginRules = () => {
             .notEmpty().withMessage("Password is required.")
             .bail()
             // This custom is used to check if the password is correct
-            .custom((password, { req }) => {
+            .custom(async (password, { req }) => {
                 if (!req.account) {
                     return true
                 }
 
-                if (password !== req.account.account_password) {
+                const match = await bcrypt.compare(password, req.account.account_password)
+                if (!match) {
                     throw new Error("Incorrect password.")
                 }
                 return true
