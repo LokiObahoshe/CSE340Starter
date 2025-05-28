@@ -223,6 +223,11 @@ nav {
   float: left;
 }
 
+.notice {
+  color: red;
+  font-style: italic;
+}
+
 /*************** Medium (Tablet) View ***************/
 
 @media screen and (min-width: 641px) and (max-width: 1268px) {
