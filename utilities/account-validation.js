@@ -2,6 +2,7 @@ const utilities = require(".")
 const { body, validationResult } = require("express-validator")
 const validate = {}
 const accModel = require("../models/account-model")
+const invModel = require("../models/inventory-model")
 const bcrypt = require("bcryptjs")
 
 /*  **********************************
@@ -30,7 +31,7 @@ validate.registrationRules = () => {
             .isEmail().withMessage("A valid email is required.")
             .normalizeEmail() // refer to validator.js docs
             .custom(async (account_email) => {
-                const emailExists = await accModel.checkExistingEmail(account_email)
+                const emailExists = await invModel.checkExistingEmail(account_email)
                 if (emailExists) {
                     throw new Error("Email exists. Please log in or use different email.")
                 }
@@ -90,6 +91,27 @@ validate.loginRules = () => {
 }
 
 /* ******************************
+ * Classification Data Validation Rules
+ * ***************************** */
+validate.ClassificationRules = () => {
+    return [
+        body("classification_name")
+            .trim()
+            .escape()
+            .notEmpty().withMessage("Name was empty.")
+            .bail()
+            .matches("^[A-Za-z]+$")
+            .withMessage("Please provide a correct classification name.")
+            .custom(async (classification_name) => {
+                const classExists = await invModel.checkExistingClass(classification_name)
+                if (classExists) {
+                    throw new Error("This class already exists")
+                }
+            })
+    ]
+}
+
+/* ******************************
  * Check data and return errors or continue to login
  * ***************************** */
 validate.checkLogData = async (req, res, next) => {
@@ -125,6 +147,26 @@ validate.checkRegData = async (req, res, next) => {
             account_firstname,
             account_lastname,
             account_email,
+        })
+        return
+    }
+    next()
+}
+
+/* ******************************
+ * Check data and return errors or continue to Add Classification view
+ * ***************************** */
+validate.checkClassData = async (req, res, next) => {
+    const { classification_name } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("inventory/add-classification", {
+            errors,
+            title: "Add New Classification",
+            nav,
+            classification_name,
         })
         return
     }

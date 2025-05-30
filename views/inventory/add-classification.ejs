@@ -1,0 +1,24 @@
+<%- messages() %>
+
+    <% if (errors) { %>
+        <ul class="notice">
+            <% errors.array().forEach(error=> { %>
+                <li>
+                    <%= error.msg %>
+                </li>
+                <% }) %>
+        </ul>
+        <% } %>
+
+            <% if (title) { %>
+                <h1>
+                    <%= title %>
+                </h1>
+                <% } else { res.redirect('/') } %>
+
+                    <form class="formdetails" action="add-new-classification" method="post">
+                        <label for="classification_name"> Classification Name: </label>
+                        <input type="text" id="classification_name" name="classification_name" pattern="[a-zA-Z0-9]+"
+                            required>
+                        <button class="buttonU" type="submit">Add Classification</button>
+                    </form>

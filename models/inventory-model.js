@@ -39,4 +39,26 @@ async function getVehicleById(inv_id) {
     }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getVehicleById }
+// Add the classification to database
+async function addClassification(classification_name) {
+    try {
+        const sql = await pool.query(`INSERT INTO public.classification (classification_name) VALUES ($1)`, [classification_name])
+        return sql
+    } catch (error) {
+        console.error("addClassification error: " + error)
+        throw error
+    }
+}
+
+// Check for existing class
+async function checkExistingClass(classification_name) {
+    try {
+        const sql = "SELECT * FROM classification WHERE classification_name = $1"
+        const checkClass = await pool.query(sql, [classification_name])
+        return checkClass.rowCount
+    } catch (error) {
+        return error.message
+    }
+}
+
+module.exports = { getClassifications, getInventoryByClassificationId, getVehicleById, addClassification, checkExistingClass }
