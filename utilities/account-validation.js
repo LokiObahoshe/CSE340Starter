@@ -112,6 +112,70 @@ validate.ClassificationRules = () => {
 }
 
 /* ******************************
+ * Check data and return errors or continue to Add Inventory view
+ * ***************************** */
+validate.InventoryListRules = () => {
+    return [
+        body("inv_make")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a make."),
+
+        body("inv_model")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a model."),
+
+        body("inv_description")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a description."),
+
+        body("inv_image")
+            .trim()
+            .notEmpty()
+            .withMessage("Please provide an image path."),
+
+        body("inv_thumbnail")
+            .trim()
+            .notEmpty()
+            .withMessage("Please provide a thumbnail path."),
+
+        body("inv_price")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a price."),
+
+        body("inv_year")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a year."),
+
+        body("inv_miles")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide the miles"),
+
+        body("inv_color")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a color"),
+
+        body("classification_id")
+            .notEmpty().withMessage("Please select a classification.")
+            .bail()
+            .isInt({ min: 1 }).withMessage("Invalid classification selected."),
+    ]
+}
+
+/* ******************************
  * Check data and return errors or continue to login
  * ***************************** */
 validate.checkLogData = async (req, res, next) => {
@@ -167,6 +231,35 @@ validate.checkClassData = async (req, res, next) => {
             title: "Add New Classification",
             nav,
             classification_name,
+        })
+        return
+    }
+    next()
+}
+
+// Checks for the entire inventory list
+validate.checkInventoryData = async (req, res, next) => {
+    const { inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        const classificationList = await utilities.buildClassificationList()
+        let nav = await utilities.getNav()
+        res.render("inventory/add-inventory", {
+            errors,
+            title: "Add New Inventory",
+            nav,
+            classificationList,
+            inv_make,
+            inv_model,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_year,
+            inv_miles,
+            inv_color,
+            classification_id
         })
         return
     }
