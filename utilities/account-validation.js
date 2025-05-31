@@ -160,13 +160,13 @@ validate.InventoryListRules = () => {
             .trim()
             .escape()
             .notEmpty()
-            .withMessage("Please provide the miles"),
+            .withMessage("Please provide the miles."),
 
         body("inv_color")
             .trim()
             .escape()
             .notEmpty()
-            .withMessage("Please provide a color"),
+            .withMessage("Please provide a color."),
 
         body("classification_id")
             .notEmpty().withMessage("Please select a classification.")
@@ -243,7 +243,7 @@ validate.checkInventoryData = async (req, res, next) => {
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
-        const classificationList = await utilities.buildClassificationList()
+        const classificationList = await utilities.buildClassificationList(classification_id)
         let nav = await utilities.getNav()
         res.render("inventory/add-inventory", {
             errors,
