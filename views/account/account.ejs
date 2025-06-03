@@ -1,8 +1,23 @@
-<%# title %>
-    <% if (title) { %>
-        <h1>
-            <%= title %>
-        </h1>
-        <% } else { res.redirect('/') } %>
+<%- messages() %>
 
-            <%- messages() %>
+    <% if (errors) { %>
+        <ul class="notice">
+            <% errors.array().forEach(error=> { %>
+                <li>
+                    <%= error.msg %>
+                </li>
+                <% }) %>
+        </ul>
+        <% } %>
+
+            <%# title %>
+                <% if (title) { %>
+                    <h1>
+                        <%= title %>
+                    </h1>
+                    <% } else { res.redirect('/') } %>
+
+                        <% if (session.loginmessage) { %>
+                            <p class="loginsuccessmessage">Success! You have logged in.</p>
+                            <% session.loginmessage=false %>
+                                <% } %>

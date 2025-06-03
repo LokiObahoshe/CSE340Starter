@@ -31,7 +31,7 @@ validate.registrationRules = () => {
             .isEmail().withMessage("A valid email is required.")
             .normalizeEmail() // refer to validator.js docs
             .custom(async (account_email) => {
-                const emailExists = await invModel.checkExistingEmail(account_email)
+                const emailExists = await accModel.checkExistingEmail(account_email)
                 if (emailExists) {
                     throw new Error("Email exists. Please log in or use different email.")
                 }

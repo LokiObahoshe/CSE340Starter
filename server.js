@@ -19,6 +19,7 @@ const invController = require("./controllers/invController.js")
 const utilities = require("./utilities/")
 const accountRoute = require("./routes/accountRoute.js")
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 
 app.use(express.static("public"))
 app.set("view engine", "ejs")
@@ -48,6 +49,10 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
 
 /* ***********************
  * Routes
