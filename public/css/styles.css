@@ -298,6 +298,10 @@ tbody {
   padding: 10px;
 }
 
+.deletemessage {
+  text-align: center;
+}
+
 /*************** Medium (Tablet) View ***************/
 
 @media screen and (min-width: 641px) and (max-width: 1268px) {
