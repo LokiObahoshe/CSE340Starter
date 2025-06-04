@@ -18,6 +18,15 @@ router.get("/add-new-classification", invController.classificationView)
 // Route to add a new vehicle to inventory
 router.get("/add-new-inventory", invController.InventoryView)
 
+// Route to get inventory for inventory table
+router.get("/getInventory/:classification_id", invController.getInventoryJSON)
+
+// Route to get the vehicle edit view
+router.get("/edit/:inv_id", invController.buildInvEdit)
+
+// // Delete an item route for delete page
+// router.get("/delete/:inv_id", invController.buildDeleteView)
+
 // Route to add new classification
 router.post(
     "/add-new-classification",
@@ -33,5 +42,12 @@ router.post(
     regValidate.checkInventoryData,
     invController.addNewInventoryController
 )
+
+// // Inventory route for edit page
+// router.post("/delete/",
+//     //regValidate.InventoryListRules(),
+//     //regValidate.checkUpdateData,
+//     invController.deleteItem
+// )
 
 module.exports = router;
