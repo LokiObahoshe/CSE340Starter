@@ -43,6 +43,13 @@ router.post(
     invController.addNewInventoryController
 )
 
+// Route for edit page update
+router.post("/update/",
+  regValidate.InventoryListRules(),
+  regValidate.checkUpdateData,
+  invController.updateInventory
+)
+
 // // Inventory route for edit page
 // router.post("/delete/",
 //     //regValidate.InventoryListRules(),

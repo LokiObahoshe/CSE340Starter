@@ -16,7 +16,7 @@
                 </h1>
                 <% } else { res.redirect('/') } %>
 
-                    <form class="formdetailsinventory" action="/inv/update" method="post">
+                    <form id="updateForm" class="formdetailsinventory" action="/inv/update" method="post">
                         <label for="classificationList">Classification: </label>
                         <%- classificationList %>
 
@@ -52,5 +52,10 @@
                             <input type="text" id="inv_color" name="inv_color" required value="<%= locals.inv_color %>">
 
                             <br>
-                            <button class="button" type="submit">Update Vehicle</button>
+                            <button class="button" type="submit" disabled>Update Vehicle</button>
+
+                            <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+                                <% } %>>
                     </form>
+
+                    <script src="../../js/inv-update.js"></script>
