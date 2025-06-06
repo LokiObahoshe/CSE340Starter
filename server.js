@@ -54,6 +54,22 @@ app.use(cookieParser())
 
 app.use(utilities.checkJWTToken)
 
+//Changes local to session in order to make link visibility functional in ejs
+app.use((req, res, next) => {
+  res.locals.session = req.session
+  next()
+})
+
+app.get('/logout', (req, res) => {
+  res.clearCookie('jwt')
+  req.session.destroy(err => {
+    if (err) {
+      return res.redirect('/account')
+    }
+    res.redirect('/')
+  })
+})
+
 /* ***********************
  * Routes
  *************************/

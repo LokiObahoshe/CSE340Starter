@@ -11,26 +11,27 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 router.get("/detail/:inv_id", utilities.handleErrors(invController.getVehicleDetails))
 
 // Route to get Management view
-router.get("/", utilities.handleErrors(invController.managementView))
+router.get("/", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.managementView))
 
 // Route to add a new classification
-router.get("/add-new-classification", utilities.handleErrors(invController.classificationView))
+router.get("/add-new-classification", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.classificationView))
 
 // Route to add a new vehicle to inventory
-router.get("/add-new-inventory", utilities.handleErrors(invController.InventoryView))
+router.get("/add-new-inventory", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.InventoryView))
 
 // Route to get inventory for inventory table
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 // Route to get the vehicle edit view
-router.get("/edit/:inv_id", utilities.handleErrors(invController.buildInvEdit))
+router.get("/edit/:inv_id", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildInvEdit))
 
 // Delete an item route for delete page
-router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteView))
+router.get("/delete/:inv_id", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildDeleteView))
 
 // Route to add new classification
 router.post(
   "/add-new-classification",
+  utilities.checkEmployeeOrAdmin,
   regValidate.ClassificationRules(),
   regValidate.checkClassData,
   utilities.handleErrors(invController.AddNewClassification)
@@ -39,6 +40,7 @@ router.post(
 // Route to add new inventory
 router.post(
   "/add-new-inventory",
+  utilities.checkEmployeeOrAdmin,
   regValidate.InventoryListRules(),
   regValidate.checkInventoryData,
   utilities.handleErrors(invController.addNewInventoryController)
@@ -46,6 +48,7 @@ router.post(
 
 // Route for edit page update
 router.post("/update/",
+  utilities.checkEmployeeOrAdmin,
   regValidate.InventoryListRules(),
   regValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
@@ -53,8 +56,7 @@ router.post("/update/",
 
 // Inventory route for edit page
 router.post("/delete/",
-  //regValidate.InventoryListRules(),
-  //regValidate.checkUpdateData,
+  utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.deleteItem)
 )
 

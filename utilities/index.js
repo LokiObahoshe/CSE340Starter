@@ -136,6 +136,30 @@ Util.checkJWTToken = (req, res, next) => {
     }
 }
 
+Util.checkEmployeeOrAdmin = (req, res, next) => {
+    const token = req.cookies.jwt
+    if (!token) {
+        req.flash("notice", "You must be logged in to access this area.")
+        return res.redirect("/account/login")
+    }
+
+    try {
+        const accountData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        if (accountData.account_type === "Employee" || accountData.account_type === "Admin") {
+            res.locals.accountData = accountData
+            next()
+        } else {
+            req.flash("notice", "You do not have permission to access this area.")
+            return res.redirect("/account/")
+        }
+    } catch (error) {
+        console.error("JWT verification failed:", error.message)
+        req.flash("notice", "Access denied. Please log in.")
+        res.clearCookie("jwt")
+        return res.redirect("/account/login")
+    }
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

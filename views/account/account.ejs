@@ -21,3 +21,11 @@
                             <p class="loginsuccessmessage">Success! You have logged in.</p>
                             <% session.loginmessage=false %>
                                 <% } %>
+
+                                    <h2>Welcome back, <%= session.userName %>!</h2>
+                                    <a href="/account/update/<%= accountData.account_id %>">Account Update</a>
+
+                                    <% if (session.accountType==='Employee' || session.accountType==='Admin' ) { %>
+                                        <h3>Inventory Management</h3>
+                                        <p><a href="/inv">Inventory Management</a></p>
+                                        <% } %>

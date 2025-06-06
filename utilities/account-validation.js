@@ -296,4 +296,91 @@ validate.checkUpdateData = async (req, res, next) => {
     next()
 }
 
+// Redirects errors back to the update view
+validate.checkAccountUpdateData = async (req, res, next) => {
+    const { account_firstname, account_lastname, account_email } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/update", {
+            errors,
+            title: "Edit ",
+            nav,
+            account_firstname,
+            account_lastname,
+            account_email
+        })
+        return
+    }
+    next()
+}
+
+// Update account errors (firstname, lastname and email)
+validate.accountUpdateListRules = () => {
+    return [
+        body("account_firstname")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a first name."),
+
+        body("account_lastname")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a last name."),
+
+        body("account_email")
+            .trim()
+            .isEmail()
+            .normalizeEmail()
+            .withMessage("A valid email is required.")
+            .custom(async (account_email, { req }) => {
+                const existingAccount = await accModel.getAccountByEmail(account_email)
+                const incomingId = parseInt(req.body.account_id, 10)
+
+                if (existingAccount && existingAccount.account_id !== incomingId) {
+                    throw new Error("Email exists. Please use a different email.")
+                }
+            })
+    ]
+}
+
+validate.checkAccountPasswordUpdateData = async (req, res, next) => {
+    const { account_password, account_id } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/update", {
+            errors,
+            title: "Edit ",
+            nav,
+            account_password,
+            account_id
+        })
+        return
+    }
+    next()
+}
+
+// Update account errors (password)
+validate.passwordChangeRules = () => {
+    return [
+        body("account_password")
+            .trim()
+            .notEmpty().withMessage("A password is required.")
+            .bail()
+            .isStrongPassword({
+                minLength: 12,
+                minLowercase: 1,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 1,
+            })
+            .withMessage("Password does not meet requirements."),
+    ]
+}
+
 module.exports = validate
