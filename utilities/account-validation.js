@@ -298,7 +298,7 @@ validate.checkUpdateData = async (req, res, next) => {
 
 // Redirects errors back to the update view
 validate.checkAccountUpdateData = async (req, res, next) => {
-    const { account_firstname, account_lastname, account_email } = req.body
+    const { account_firstname, account_lastname, account_email, account_id } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -309,7 +309,8 @@ validate.checkAccountUpdateData = async (req, res, next) => {
             nav,
             account_firstname,
             account_lastname,
-            account_email
+            account_email,
+            account_id
         })
         return
     }

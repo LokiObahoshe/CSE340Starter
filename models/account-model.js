@@ -79,7 +79,7 @@ async function updateAccount(account_firstname, account_lastname, account_email,
         return data.rows[0]
     } catch (error) {
         console.error("Updating Account error: " + error)
-        throw error
+        return null
     }
 }
 
@@ -93,7 +93,7 @@ async function updatePassword(account_password, account_id) {
         return data.rows[0]
     } catch (error) {
         console.error("Updating Password error: " + error)
-        throw error
+        return null
     }
 }
 
