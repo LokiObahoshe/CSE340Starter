@@ -99,12 +99,13 @@ async function accountLogin(req, res) {
             const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
             // IMPORTANT: Needed to add this line to verify login succes
             req.session.loggedin = true
-            // This line was added just to make things look prettier
+            // These lines were added just to make things look prettier
             // and makes sure the "succesful login" message doesn't
             // appear again when the user has logged in
             req.session.loginmessage = true
             req.session.userName = accountData.account_firstname
             req.session.accountType = accountData.account_type
+            req.session.accountId = accountData.account_id
             if (process.env.NODE_ENV === 'development') {
                 res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
             } else {
@@ -128,12 +129,31 @@ async function accountLogin(req, res) {
 
 async function loginSuccess(req, res, next) {
     let nav = await utilities.getNav()
+
+    if (!req.session || !req.session.loggedin || !req.session.userName) {
+        req.flash("notice", "Your session has expired. Please log in again.")
+        return res.redirect("/account/login")
+    }
+
+    const account_id = req.session.accountId
+    if (!account_id) {
+        req.flash("notice", "Missing account information. Please log in again.")
+        return res.redirect("/account/login")
+    }
+
+    const accountData = await accModel.getAccountId(account_id)
+    if (!accountData) {
+        req.flash("notice", "Account data not found. Please log in again.")
+        return res.redirect("/account/login")
+    }
+
     res.render("account/account", {
         title: "Login Success",
         nav,
         errors: null,
         accountType: req.session.accountType,
-        session: req.session
+        session: req.session,
+        accountData
     })
 }
 
