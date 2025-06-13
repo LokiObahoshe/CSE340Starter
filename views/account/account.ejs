@@ -29,3 +29,10 @@
                                         <h3>Inventory Management</h3>
                                         <p><a href="/inv">Inventory Management</a></p>
                                         <% } %>
+
+                                            <% if (session.accountType==='Client' ) { %>
+                                                <br>
+                                                <h3>Membership Signup</h3>
+                                                <a href="account/membership/<%= accountData.account_id %>">Sign up as a
+                                                    member today!</a>
+                                                <% } %>

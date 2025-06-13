@@ -348,6 +348,38 @@ validate.accountUpdateListRules = () => {
     ]
 }
 
+// Membership signup errors
+validate.memberSignupRules = () => {
+    return [
+        body("account_firstname")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a first name."),
+
+        body("account_lastname")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a last name."),
+
+        body("account_email")
+            .trim()
+            .isEmail()
+            .normalizeEmail()
+            .withMessage("Please provide an email."),
+
+        body("account_phone")
+            .trim()
+            .escape()
+            .notEmpty().withMessage("Please provide a phone number")
+            .bail()
+            .matches(/^\d{3}-\d{3}-\d{4}$/)
+            .withMessage("Please provide a phone number")
+            .withMessage("Phone number must be in the format XXX-XXX-XXXX")
+    ]
+}
+
 validate.checkAccountPasswordUpdateData = async (req, res, next) => {
     const { account_password, account_id } = req.body
     let errors = []
@@ -382,6 +414,28 @@ validate.passwordChangeRules = () => {
             })
             .withMessage("Password does not meet requirements."),
     ]
+}
+
+// Membership errors
+validate.checkMembershipData = async (req, res, next) => {
+    const { account_firstname, account_lastname, account_email, account_phone, account_id } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/membership", {
+            errors,
+            title: "Membership Signup",
+            nav,
+            account_firstname,
+            account_lastname,
+            account_email,
+            account_phone,
+            account_id
+        })
+        return
+    }
+    next()
 }
 
 module.exports = validate

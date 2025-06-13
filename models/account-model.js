@@ -97,4 +97,15 @@ async function updatePassword(account_password, account_id) {
     }
 }
 
-module.exports = { registerAccount, checkExistingEmail, grabAllAccountData, getAccountByEmail, getAccountId, updateAccount, updatePassword }
+async function currentToMember(account_id, account_phone) {
+    try {
+        const sql = `UPDATE account SET account_type = 'Membership', account_phone = $2 WHERE account_id = $1 AND account_type = 'Client' RETURNING *`
+        const data = await pool.query(sql, [account_id, account_phone])
+        return data.rows[0]
+    } catch (error) {
+        console.error("Membership Signup Failed: " + error)
+        throw error
+    }
+}
+
+module.exports = { registerAccount, checkExistingEmail, grabAllAccountData, getAccountByEmail, getAccountId, updateAccount, updatePassword, currentToMember }

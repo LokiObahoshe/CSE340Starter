@@ -227,4 +227,50 @@ async function changePassword(req, res, next) {
     }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, loginSuccess, processUpdate, changePassword, updateAccount }
+// Membership signup
+async function buildMembershipSignup(req, res, next) {
+    let nav = await utilities.getNav()
+    const accountData = await accModel.getAccountId(req.params.account_id);
+    res.render("account/membership", {
+        title: "Membership Signup",
+        nav,
+        errors: null,
+        account_id: accountData.account_id,
+        account_firstname: accountData.account_firstname,
+        account_lastname: accountData.account_lastname,
+        account_email: accountData.account_email,
+        account_phone: accountData.account_phone
+    })
+}
+
+// Membership signup
+async function buildMembershipSuccessView(req, res, next) {
+    let nav = await utilities.getNav()
+    res.render("account/membershipsuccess", {
+        title: "Membership Success",
+        nav,
+        errors: null
+    })
+}
+
+// Update Account Data, membership
+async function membershipSignup(req, res, next) {
+    let nav = await utilities.getNav()
+    const { account_id, account_phone } = req.body
+    const memberResult = await accModel.currentToMember(account_id, account_phone)
+
+    if (memberResult) {
+        req.session.accountType = 'Member';
+        res.redirect("membershipsuccess")
+    } else {
+        req.flash("notice", "Sorry, the membership signup failed.")
+        res.status(501).render("account/membership", {
+            title: "Membership Signup",
+            nav,
+            errors: null,
+            account_id
+        })
+    }
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, loginSuccess, processUpdate, changePassword, updateAccount, buildMembershipSignup, buildMembershipSuccessView, membershipSignup }
