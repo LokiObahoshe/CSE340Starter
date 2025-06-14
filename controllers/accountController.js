@@ -260,7 +260,7 @@ async function membershipSignup(req, res, next) {
     const memberResult = await accModel.currentToMember(account_id, account_phone)
 
     if (memberResult) {
-        req.session.accountType = 'Member';
+        req.session.accountType = 'Membership';
         res.redirect("membershipsuccess")
     } else {
         req.flash("notice", "Sorry, the membership signup failed.")
