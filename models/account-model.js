@@ -104,7 +104,7 @@ async function currentToMember(account_id, account_phone) {
         return data.rows[0]
     } catch (error) {
         console.error("Membership Signup Failed: " + error)
-        throw error
+        return null
     }
 }
 
