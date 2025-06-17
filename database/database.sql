@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS public.account (
     account_email character varying NOT NULL,
     account_password character varying NOT NULL,
     account_type account_type NOT NULL DEFAULT 'Client'::account_type,
-    account_phone character varying NOT NULL,
+    account_phone character varying,
     CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
 -- Insert values into classification table
